@@ -10,7 +10,44 @@ const PUNTOS_POR_MARCA = {
   'RK': 5, 'WIFICEL': 5, 'FIBROX': 4, 'INTERCHEAP': 3, 'DMG': 2
 };
 
-export default function ImportarInteracciones({ colaboradores, historial, onProcesar, onEliminarHistorial }) {
+type Colaborador = {
+  id: string;
+  nombre: string;
+  facebook?: string;
+  foto?: string;
+};
+
+type DetalleInteraccion = {
+  colaboradorId: string;
+  nombre: string;
+  usuarioFb: string;
+  interaccion: string;
+  puntosGanados: number;
+};
+
+type HistorialItem = {
+  id: string;
+  fecha: string;
+  marca: string;
+  tipo: string;
+  totalPuntos: number;
+  cantidad: number;
+  detalles: DetalleInteraccion[];
+};
+
+type ImportarInteraccionesProps = {
+  colaboradores: Colaborador[];
+  historial: HistorialItem[];
+  onProcesar: (data: HistorialItem) => void;
+  onEliminarHistorial: (id: string) => void;
+};
+
+export default function ImportarInteracciones({
+  colaboradores,
+  historial,
+  onProcesar,
+  onEliminarHistorial
+}: ImportarInteraccionesProps) {
   const [activeTab, setActiveTab] = useState('reacciones'); 
   const [marca, setMarca] = useState('WIFICEL');
   const [fecha, setFecha] = useState(new Date().toISOString().split('T')[0]);
